@@ -18,11 +18,11 @@ class Main {
         }
         
         Arrays.sort(a);
-        Arrays.sort(b, Collections.reverseOrder()); // Integer 배열이므로 reverseOrder 사용 가능
+        Arrays.sort(b); // Integer 배열이므로 reverseOrder 사용 가능
         
         int sum = 0;
         for (int i = 0; i < n; i++) {
-            sum += (a[i] * b[i]);
+            sum += (a[i] * b[n-i-1]);
         }
         System.out.println(sum);
     }
