@@ -5,8 +5,8 @@ class Main{
         Scanner sc = new Scanner(System.in);
         int a =  sc.nextInt();
         
-        int[] len  = new int[a-1];
-        int[] ju  = new int[a];
+        long[] len  = new long[a-1];
+        long[] ju  = new long[a];
         
         //거리
         for(int i = 0; i <  len.length; i++){
@@ -18,8 +18,8 @@ class Main{
             ju[i] = sc.nextInt();
         }
         
-        int result = 0;
-        int min = ju[0];
+        long result = 0;
+        long min = ju[0];
         
         for(int i = 0; i <  ju.length-1; i++){
             if(min > ju[i]){
