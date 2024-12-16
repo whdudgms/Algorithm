@@ -1,37 +1,37 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-public class Main {
-    static long a,b;
-    static int cnt;
+public class Main{
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-    static int bfs(){
-        Queue<Long> q = new LinkedList<>();
-        q.add(a);
-
-        while(!q.isEmpty()){
-            int size = q.size();
-
-            for(int i=0; i<size; i++){
-                long tmp = q.poll();
-                if(tmp==b)
-                    return cnt+1;
-
-                if(tmp*2<=b) q.add(tmp*2);
-                if(tmp*10+1<=b) q.add(tmp*10+1);
+        int A = Integer.parseInt(st.nextToken());
+        int B = Integer.parseInt(st.nextToken());
+        
+        int answer = 1;
+        
+        while(B != A){
+            if( B < A){
+                System.out.println(-1);
+                return;
             }
-            cnt++;
+            
+            String str = String.valueOf(B);
+            
+            if(B % 2 == 0){
+                B /= 2;
+            }else if(str.charAt(str.length() -1) =='1'){
+                str = str.substring(0, str.length()-1);
+                B = Integer.parseInt(str);
+            }else{
+                System.out.println(-1);
+                return;
+            }
+            answer++;
         }
-        return -1;
-    }
-
-    public static void main(String args[]) throws IOException {
-        BufferedReader bfr = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer stk = new StringTokenizer(bfr.readLine());
-
-        a = Long.parseLong(stk.nextToken());
-        b = Long.parseLong(stk.nextToken());
-
-        System.out.println(bfs());
+        System.out.println(answer);
     }
 }
