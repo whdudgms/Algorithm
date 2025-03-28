@@ -1,26 +1,29 @@
-import java.util.Scanner;
+import java.io.*;
 
-
-public class Main{
-    public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
+class Main{
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         
-        int N = sc.nextInt();
+        int n = Integer.parseInt(br.readLine());
+        
         int count = 0;
-        int temp = 0;
-        while(true){
-            if(N % 5 == 0){
-                count += N/5;
-                System.out.println(count);
-                break;
+        while(n > 0){
+            if(n % 5 == 0){
+                count +=  n / 5;
+                System.out.print(count);
+                return;
             }else{
-                N -= 2;
-                count++;
+               n -= 2;
+               count++;
             }
-            if(N < 0){
-               System.out.println(-1);
-               break;
-            }
+                       
         }
+        if(n < 0) 
+        {
+        System.out.print(-1);
+        return;
+        }
+        System.out.print(count);
+
     }
 }
