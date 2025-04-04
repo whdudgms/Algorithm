@@ -1,24 +1,26 @@
 import java.util.*;
+
 class Solution {
     public int[] solution(String[] operations) {
+       Queue<Integer> minpq = new PriorityQueue<>();
+       Queue<Integer> maxpq = new PriorityQueue<>(Collections.reverseOrder());
         
-        Queue<Integer> maxQueue = new PriorityQueue<>((i1, i2) -> i2 - i1), minQueue = new PriorityQueue<>();
-        
-        for(int i = 0; i < operations.length; i++){
-            String[] strs = operations[i].split(" ");
-            if(strs[0].equals("I")) {
-                minQueue.offer(Integer.valueOf(strs[1]));
-                maxQueue.offer(Integer.valueOf(strs[1]));
-            } else if(strs[0].equals("D") && strs[1].equals("1") && !maxQueue.isEmpty()){
-                minQueue.remove(maxQueue.poll());
-            }else if(strs[0].equals("D") && strs[1].equals("-1") && !minQueue.isEmpty()){
-                maxQueue.remove(minQueue.poll());
+        for (String operation : operations) {
+            if (operation.startsWith("I ")) {
+                int n = Integer.parseInt(operation.substring(2));
+                minpq.offer(n);
+                maxpq.offer(n);
+            }else if(!minpq.isEmpty() && operation.equals("D -1")){
+                maxpq.remove(minpq.poll());
+            }else if(!maxpq.isEmpty() && operation.equals("D 1")){
+                minpq.remove(maxpq.poll());
             }
         }
         
-        int min = minQueue.isEmpty() ? 0 : minQueue.poll(),
-        max = maxQueue.isEmpty() ? 0 : maxQueue.poll();
-        
-        return new int[]{max, min};
+        if (minpq.isEmpty() && maxpq.isEmpty()){
+            return new int[]{0,0};
+        }
+
+        return new int[]{maxpq.poll(), minpq.poll()};
     }
 }
