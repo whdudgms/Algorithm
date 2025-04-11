@@ -1,15 +1,24 @@
-class Solution {
-	public int[] solution(int[] prices) {
-		int[] answer = new int[prices.length];
+import java.util.Stack;
 
-		for (int i = 0; i < prices.length; i++) {
-			for (int j = i + 1; j < prices.length; j++) {
-				answer[i]++; // 뒤에 있는 값들 보다 작거나 같을 때 인덱스 값 하나씩 추가
-				if (prices[i] > prices[j]) { // 크면 다음 인데스 비교
-					break;
-				}
-			}
-		}
-		return answer;
-	}
+class Solution {
+    public int[] solution(int[] prices) {
+        int[] answer = new int[prices.length];
+        Stack<Integer> stack = new Stack<>();
+        
+        for(int i = 0; i < prices.length; i++){
+            while(!stack.isEmpty() && prices[i] < prices[stack.peek()]){
+                answer[stack.peek()] = i - stack.peek();
+                stack.pop();
+            }
+            stack.push(i);
+        }
+        
+        while(!stack.isEmpty()){
+            answer[stack.peek()] = prices.length - stack.peek() - 1;
+            stack.pop();
+        }
+        
+        return answer;
+
+    }
 }
