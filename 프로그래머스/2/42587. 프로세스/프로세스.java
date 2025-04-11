@@ -1,34 +1,26 @@
-import java.util.PriorityQueue;
-import java.util.Collections;
+import java.util.*;
 
 class Solution {
     public int solution(int[] priorities, int location) {
-        // 우선순위 큐 선언(내림 차순)
-        PriorityQueue<Integer> queue = new PriorityQueue<>(Collections.reverseOrder());
         int answer = 0;
         
-        // 우선순위 큐에 우선순위 요소 추가 
-        for (int i : priorities){
-            queue.offer(i);
+        PriorityQueue<Integer> pq = 
+            new PriorityQueue<>(Collections.reverseOrder());
+        
+        for(int p : priorities){
+            pq.add(p);
         }
         
-        // 큐가 빌 때까지 반복
-        while(!queue.isEmpty()){
-            //기존 우선순위 배열 순회 
-            for(int i = 0; i < priorities.length; i++){
-                // 현재 작업의 위치 찾기 
-                if(queue.peek() == priorities[i]){
-                    queue.poll();
+        while(!pq.isEmpty()){
+            for(int i = 0; i < priorities.length;i++){
+                if(priorities[i] == pq.peek()){
+                    pq.poll();
                     answer++;
-                    
-                    // 현재 작업이 location과 같으면 answer 반환
-                    if(location == i){
+                    if(i == location)
                         return answer;
-                    }
                 }
             }
         }
-        
         
         return answer;
     }
