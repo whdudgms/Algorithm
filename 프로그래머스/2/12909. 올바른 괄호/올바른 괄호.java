@@ -1,27 +1,25 @@
-import java.util.Queue;
-import java.util.LinkedList;
+
 
 class Solution {
     boolean solution(String s) {
-        Queue<Character> q = new LinkedList<>();
-
-        for (int i = 0; i < s.length(); i++) {
-            q.offer(s.charAt(i));
-        }
-
-        int a = 0;
-        int b = 0;
-
-        while (!q.isEmpty()) {
-            if ('(' == q.poll()) {
-                a++;
-            } else {
-                b++;
+        
+        
+        int cnt = 0;
+        for(int i = 0; i < s.length(); i++){
+            
+            if(s.charAt(i) == '(') cnt++;  
+               else  cnt--;
+                   
+            if(cnt < 0){
+                return false;
             }
-
-            if (a < b) return false;
         }
+        
+        if(cnt != 0){
+            return false;
+        }
+        
+        return true;
 
-        return a == b;
     }
 }
