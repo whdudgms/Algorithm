@@ -14,7 +14,6 @@ class Main{
                 dfs(i);
         }
     }
-    
     public static void main(String[] args){
         Scanner sc = new Scanner(System.in);
         
@@ -25,6 +24,7 @@ class Main{
         visited = new boolean[N + 1];
         
         int x, y;
+        
         for(int i = 0; i < M; i++){
             x = sc.nextInt();
             y = sc.nextInt();
@@ -34,7 +34,7 @@ class Main{
         
         dfs(1);
         
-        System.out.println(answer -1);
+        System.out.println(answer - 1);
         sc.close();
     }
 }
