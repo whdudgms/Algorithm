@@ -1,10 +1,11 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main{
     static int[] dx = {-1,1,0,0};
     static int[] dy = {0,0,-1,1};
-    static int M,N,K,count;
+    
+    static int M, N, K, count;
     static int[][] map;
     static boolean[][] visited;
     
@@ -14,7 +15,7 @@ public class Main{
         int T = Integer.parseInt(br.readLine());
         StringTokenizer st;
         
-        while(T-->0){
+        while(T --> 0){
             st = new StringTokenizer(br.readLine());
             M = Integer.parseInt(st.nextToken());
             N = Integer.parseInt(st.nextToken());
@@ -33,13 +34,14 @@ public class Main{
             for(int i = 0; i < N; i++){
                 for(int j = 0; j < M; j++){
                     if(!visited[i][j] && map[i][j] == 1){
-                        dfs(i,j);
-                        count++;
+                         dfs(i, j);
+                         count++;
                     }
                 }
             }
-            bw.append(count+"\n");
+            bw.append(count + "\n");
         }
+        
         bw.flush();
         br.close();
         bw.close();
@@ -50,11 +52,12 @@ public class Main{
         for(int i = 0; i < 4; i++){
             int nx = x + dx[i];
             int ny = y + dy[i];
-            if(nx < 0 || ny < 0 || nx>= N || ny >= M) continue;
+            if(nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
             
-            if(!visited[nx][ny] && map[nx][ny] ==1){
+            if(!visited[nx][ny] && map[nx][ny] == 1){
                 dfs(nx,ny);
             }
         }
     }
+    
 }
