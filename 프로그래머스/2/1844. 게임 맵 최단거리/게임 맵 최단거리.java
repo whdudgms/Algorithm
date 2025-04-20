@@ -1,63 +1,39 @@
 import java.util.*;
 
 class Solution {
-        
-    int[] dx = {1, 0, -1, 0};
-    int[] dy = {0, 1, 0, -1};
+    private static final int[] dx = {0, 0, -1, 1};
+    private static final int[] dy = {-1, 1, 0, 0};
     
     public int solution(int[][] maps) {
-        int answer = 0;
+        int n = maps.length;
+        int m = maps[0].length;
         
-        int[][] visited = new int[maps.length][maps[0].length];
-            
-        bfs(maps, visited);
-        answer = visited[maps.length-1][maps[0].length-1];
-        
-        if(answer == 0){
-            answer = -1;
-        }
-        
-        return answer;
-    }
-    
-    public void bfs(int[][] maps, int[][] visited){
-        int x = 0;
-        int y = 0;
-        visited[x][y] = 1;
-        
+        boolean[][] visited = new boolean[n][m];
         Queue<int[]> queue = new LinkedList<>();
-        queue.add(new int[]{x,y});
+        queue.add(new int[]{0, 0, 1});
+        visited[0][0] = true;
         
         while(!queue.isEmpty()){
-            int[] current = queue.remove();
-            int cX = current[0];
-            int cY = current[1];
+            int[] current = queue.poll();
+            int x = current[0];
+            int y = current[1];
+            int cnt = current[2];
+            if(x == n-1 && y == m-1){
+                return cnt; 
+            }
             
-            for(int i = 0; i < 4; i++){
-                int nX = cX + dx[i];
-                int nY = cY + dy[i];
+            for(int i = 0; i< 4; i++){
+                int nx = x + dx[i];
+                int ny = y + dy[i];
                 
-                if(nX < 0 || nX > maps.length - 1 || nY < 0 || nY > maps[0].length-1) continue;
                 
-                if(visited[nX][nY] == 0 && maps[nX][nY] == 1){
-                    visited[nX][nY] = visited[cX][cY] + 1;
-                    queue.add(new int[]{nX, nY});
+                if(nx >=0 && ny >= 0 && nx < n && ny < m && maps[nx][ny] == 1 && !visited[nx][ny]){
+                    visited[nx][ny] = true;
+                    queue.add(new int[]{nx, ny, cnt+1});
                 }
             }
         }
+        
+        return -1;
     }
-    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
