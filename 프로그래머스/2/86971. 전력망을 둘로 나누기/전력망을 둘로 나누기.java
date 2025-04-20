@@ -1,56 +1,64 @@
-import java.util.ArrayList;
+import java.util.*;
 
 class Solution {
-    static ArrayList<Integer>[] graph;
-    static int min; 
+    
+    private static int answer;
+    private static boolean[] visit;
+    private static List<List<Integer>> list;
     
     public int solution(int n, int[][] wires) {
-        graph = new ArrayList[n + 1];
-        min = Integer.MAX_VALUE;
         
-        // 그래프 ArrayList 초기화. 노드 개수만큼 ArrayList 생성 
-        for(int i = 1; i <= n; i++){
-            graph[i] = new ArrayList<>();
-        }
-        
-        // 양방향 간선 구조이므로 두번 add를 해준다.
-        for(int i = 0; i< wires.length; i++){
-            int v1 = wires[i][0];
-            int v2 = wires[i][1];
-            graph[v1].add(v2);
-            graph[v2].add(v1);
-        }
+        answer = 987654321;
         
         for(int i = 0; i < wires.length; i++){
-            int v1 = wires[i][0];
-            int v2 = wires[i][1];
-            
-            boolean[] visited = new boolean[n + 1];
-            
-            graph[v1].remove(Integer.valueOf(v2));
-            graph[v2].remove(Integer.valueOf(v1));
-            
-            int cnt = dfs(1, visited);
-            
-            int diff = Math.abs(cnt - (n - cnt));
-            min = Math.min(min, diff);
-            
-            graph[v1].add(v2);
-            graph[v2].add(v1);
+            bfs(i,n,wires);
         }
-        return min;
+        return answer;
     }
     
-    static int dfs(int v, boolean[] visited){
-        visited[v] = true;
-        int cnt  = 1;
+    private static void bfs(int idx, int n, int[][] wires) {
         
-        for(int next : graph[v]){
-            if(!visited[next]){
-                cnt += dfs(next, visited);
+        list = new ArrayList<>();
+        for(int i = 0; i < n; i++){
+            list.add(new ArrayList<>());
+        }
+        
+        for(int i = 0; i < wires.length;i++){
+            if(i == idx) continue;
+            int a = wires[i][0];
+            int b = wires[i][1];
+            
+            list.get(a - 1).add(b - 1);
+            list.get(b - 1).add(a - 1);
+        }
+        
+        Queue<Integer> q = new ArrayDeque<>();
+        q.offer(0);
+        
+        visit = new boolean[n];
+        visit[0] = true;
+        
+        while(!q.isEmpty()){
+            int cur = q.poll();
+            
+            for(int o : list.get(cur)){
+                if(!visit[o]){
+                    visit[o] = true;
+                    q.offer(o);
+                }
             }
         }
         
-        return cnt;
+        int one = 0; 
+        int two = 0;
+        
+        for(int i = 0; i < n; i++){
+            if(visit[i]) one++;
+            else two++;
+        }
+        
+        answer = Math.min(answer, Math.abs(one - two));
+        
+        
     }
 }
