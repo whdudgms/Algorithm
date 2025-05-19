@@ -1,40 +1,51 @@
 import java.util.*;
+import java.io.*;
 
-class Main{
-    static boolean[][] graph;
-    static boolean[] visited;
-    static int N, M;
-    static int answer;
+public class Main{
     
-    public static void dfs(int idx){
-        visited[idx] = true;
-        answer++;
-        for(int i = 1; i <= N; i++){
-            if(visited[i] == false && graph[idx][i])
-                dfs(i);
+    static int count, num, connections;
+    static boolean[] visited;
+    static List[] computers;
+    
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        num = Integer.parseInt(br.readLine());
+        connections = Integer.parseInt(br.readLine());
+        visited = new boolean[num+1];
+        computers = new List[num+1];
+        count = 0;
+        for(int i=1; i<num+1; i++) {
+            computers[i] = new ArrayList<Integer>();
         }
+        
+        StringTokenizer st;
+        for(int i=0; i<connections; i++) {
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            computers[a].add(b);
+            computers[b].add(a);
+        }
+        bfs(1);
+        
+        System.out.println(count -1);
+        br.close();
     }
-    public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
+    
+    
+    private static void bfs(int start) {
+        Queue<Integer> queue = new LinkedList<Integer>();
+        queue.add(start);
         
-        N = sc.nextInt();
-        M = sc.nextInt();
-        
-        graph = new boolean[N + 1][N + 1];
-        visited = new boolean[N + 1];
-        
-        int x, y;
-        
-        for(int i = 0; i < M; i++){
-            x = sc.nextInt();
-            y = sc.nextInt();
-            
-            graph[x][y] = graph[y][x] = true;
+        while(!queue.isEmpty()) {
+            int now = queue.poll();
+            if(!visited[now]) {
+                count++;
+                visited[now] = true;
+                for(int i=0; i<computers[now].size(); i++) {
+                    queue.add((int)computers[now].get(i));
+                }
+            }
         }
-        
-        dfs(1);
-        
-        System.out.println(answer - 1);
-        sc.close();
     }
 }
