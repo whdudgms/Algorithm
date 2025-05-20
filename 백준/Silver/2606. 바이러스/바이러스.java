@@ -1,7 +1,8 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main{
+    
     static int count, num, connections;
     static boolean[] visited;
     static List[] computers;
@@ -18,6 +19,7 @@ public class Main{
         }
         
         StringTokenizer st;
+        
         for(int i = 0; i < connections; i++){
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
@@ -28,26 +30,26 @@ public class Main{
         
         bfs(1);
         
-        System.out.println(count-1);
+        System.out.println(count - 1);
         br.close();
     }
     
     
-    private static void bfs(int start){
+    public static void bfs(int start){
         Queue<Integer> queue = new LinkedList<Integer>();
         queue.add(start);
         
         while(!queue.isEmpty()){
-            int now = queue.poll();
+            int  now = queue.poll();
             if(!visited[now]){
                 count++;
                 visited[now] = true;
                 for(int i = 0; i < computers[now].size(); i++){
                     queue.add((int) computers[now].get(i));
                 }
-                
             }
         }
     }
+    
     
 }
