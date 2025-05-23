@@ -1,63 +1,67 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
-import java.io.*;
-
-public class Main{
-    static int[] dx = {-1,1,0,0};
-    static int[] dy = {0,0,-1,1};
-    
-    static int M, N, K, count;
-    static int[][] map;
-    static boolean[][] visited;
-    
-    public static void main(String[] args) throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+ 
+ 
+public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static int n, e, count, answer;
+    static int [][] map;
+    static boolean [][] visit;
+    static int [] x={1,-1,0,0},y={0,0,-1,1};
+    static Queue<int[] > queue = new LinkedList<>();
+    public static void main(String args[]) throws IOException {
+ 
         int T = Integer.parseInt(br.readLine());
-        StringTokenizer st;
-        
-        while(T --> 0){
-            st = new StringTokenizer(br.readLine());
-            M = Integer.parseInt(st.nextToken());
-            N = Integer.parseInt(st.nextToken());
-            K = Integer.parseInt(st.nextToken());
-            map = new int[N][M];
-            visited = new boolean[N][M];
-            count = 0;
-            
-            for(int i = 0; i < K; i++){
-                st = new StringTokenizer(br.readLine());
-                int a = Integer.parseInt(st.nextToken());
-                int b = Integer.parseInt(st.nextToken());
-                map[b][a] = 1;
+        for(int p=0; p<T; p++){
+            String[] s = br.readLine().split(" ");
+            e=Integer.parseInt(s[0]);
+            n=Integer.parseInt(s[1]);
+            count=Integer.parseInt(s[2]);
+            map = new int [n][e];
+            visit= new boolean[n][e];
+            for(int i=0; i<count;i++){
+                String[] s1 = br.readLine().split(" ");
+                int x = Integer.parseInt(s1[0]);
+                int y = Integer.parseInt(s1[1]);
+                map[y][x]=1;
             }
-            
-            for(int i = 0; i < N; i++){
-                for(int j = 0; j < M; j++){
-                    if(!visited[i][j] && map[i][j] == 1){
-                         dfs(i, j);
-                         count++;
+ 
+            for(int i=0; i<n; i++){
+                for(int j=0; j<e; j++){
+                    if(map[i][j]==1 && !visit[i][j]){
+                        bfs(i,j);
+                        answer++;
                     }
                 }
             }
-            bw.append(count + "\n");
+            System.out.println(answer);
+            answer=0;
         }
-        
-        bw.flush();
-        br.close();
-        bw.close();
     }
-    
-    static void dfs(int x, int y){
-        visited[x][y] = true;
-        for(int i = 0; i < 4; i++){
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-            if(nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
-            
-            if(!visited[nx][ny] && map[nx][ny] == 1){
-                dfs(nx,ny);
+    public static void bfs(int a, int b){
+        queue.add(new int[] {a,b});
+ 
+        while(!queue.isEmpty()){
+            int[] poll = queue.poll();
+            int px=poll[1];
+            int py= poll[0];
+ 
+            visit[py][px]=true;
+ 
+            for(int i=0; i<4; i++){
+                int nx = px+x[i];
+                int ny = py+y[i];
+                if(nx>=0 &&nx<e && ny>=0 && ny<n){
+                    if(!visit[ny][nx] && map[ny][nx]==1){
+                        queue.add(new int[] {ny,nx});
+                        visit[ny][nx]=true;
+                    }
+                }
             }
         }
     }
-    
+ 
+ 
 }
