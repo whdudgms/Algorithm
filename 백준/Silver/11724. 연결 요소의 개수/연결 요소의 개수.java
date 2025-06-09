@@ -1,62 +1,54 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-public class Main{
-    
-    public static int N;
-    public static int M;
-    public static int answer;
-    public static ArrayList<Integer>[] edgeList;
-    public static boolean[] visited;
-    public static int[] dfsArr;
-    public static StringBuilder sb = new StringBuilder();
-    
-    public static void main(String[] args) throws IOException{
+public class Main {
+    static int N; // 정점의 개수
+    static int M; // 간선의 개수
+    static int[][] graph; // 그래프배열
+    static boolean[] visited; //방문한 자리
+    static int count = 0; // 연결요소의 개수
+    public static void main(String[] args) throws Exception {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        
-        String line = br.readLine();
-        String[] split = line.split(" ");
-        N = Integer.parseInt(split[0]);
-        M = Integer.parseInt(split[1]);
-        dfsArr = new int[N];
-        edgeList = new ArrayList[N + 1];
-        visited = new boolean[N + 1];
-        
-        for (int i = 0; i < N + 1; i++) {
-            edgeList[i] = new ArrayList<>();
-        }
-        for(int i = 0; i < M; i++){
-            String line1 = br.readLine();
-            String[] split1 = line1.split(" ");
-            int from  = Integer.parseInt(split1[0]);
-            int to = Integer.parseInt(split1[1]);
-            edgeList[from].add(to);
-            edgeList[to].add(from);
-        }
-        
-        for(int i = 1; i <= N; i++){
-            if(!visited[i]){
-                dfs(i);
-                answer++;
-            }
-        }
-        
-        bw.write(answer + "\n");
-        
-        bw.flush();
-        bw.close();
-        br.close();
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
 
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        graph = new int[N][N];
+        visited = new boolean[N];
+
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine(), " ");
+            int u = Integer.parseInt(st.nextToken()) - 1; // 편하게 하기위해 -1
+            int v = Integer.parseInt(st.nextToken()) - 1;
+            graph[u][v] = 1;
+            graph[v][u] = 1;
+        }
+
+
+        for (int i = 0; i < N; i++) {
+            if (!visited[i]) { //방문하지 않은 자리라면 bfs함수 실행 후 count++;
+                bfs(i);
+                count++;
+            }
+        }
+        System.out.println(count);
     }
-    
-    private static void dfs(int start){
-        visited[start] = true;
-        for(int to : edgeList[start]){
-            if(!visited[to]){
-                dfs(to);
+
+    public static void bfs(int start) {
+        Queue<Integer> q = new LinkedList<>(); // 큐 선언
+        q.offer(start); //큐에 삽입
+        visited[start] = true; //방문한곳 표시
+
+        // 해당 기준으로 연결된 지점을 확인
+        while (!q.isEmpty()) {
+            int tmp = q.poll();
+            for (int i = 0; i < N; i++) {
+                if (graph[tmp][i] == 1 && !visited[i]) {
+                    q.offer(i);
+                    visited[i] = true;
+                }
             }
         }
     }
-    
 }
