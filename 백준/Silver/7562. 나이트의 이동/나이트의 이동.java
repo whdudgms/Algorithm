@@ -9,8 +9,6 @@ public class Main{
     static int[][] pos = {{-2, 1}, {-1, 2}, {1, 2}, {2, 1}, {2, -1}, {1, -2}, {-1, -2}, {-2, -1}};
     static int nowX, nowY;
     static int desX, desY;
-    
-
     static void bfs(int x, int y){
         Queue<int[]> queue = new LinkedList<>();
         queue.add(new int[]{x,y});
@@ -23,10 +21,10 @@ public class Main{
             for(int i = 0; i < pos.length; i++){
                 int nX = nowX + pos[i][0];
                 int nY = nowY + pos[i][1];
-                
                 if(nX < 0 || nX >= n || nY < 0 || nY >= n || visited[nX][nY] || graph[nX][nY] != 0){
                     continue;
                 }
+                
                 
                 
                 visited[nX][nY] = true;
