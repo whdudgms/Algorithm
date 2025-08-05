@@ -1,0 +1,4 @@
+-- 코드를 작성해주세요
+select count(*) AS FISH_COUNT from FISH_INFO A, FISH_NAME_INFO B
+where A.FISH_TYPE = B.FISH_TYPE
+AND (B.FISH_NAME = 'BASS' OR B.FISH_NAME = 'SNAPPER') 
