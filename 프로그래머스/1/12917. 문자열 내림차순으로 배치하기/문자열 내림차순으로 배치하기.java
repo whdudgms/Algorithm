@@ -1,16 +1,16 @@
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
 
 class Solution {
     public String solution(String s) {
         String answer = "";
         
-        String[] str = s.split("");
-        Arrays.sort(str, Collections.reverseOrder());
+        char[] str = s.toCharArray();
         
-        for(String a : str){
-            answer += a;
-        }
+        Arrays.sort(str);
+        
+        for(int i = str.length - 1; i >= 0; i--){
+            answer += str[i];
+        } 
         
         return answer;
     }
